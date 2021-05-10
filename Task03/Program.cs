@@ -31,7 +31,7 @@ namespace Task03
     {
         public int Hours { get; set; }
 
-        public static implicit operator Clock(int minutes) => new Clock { Hours = minutes / 60 };
+        public static implicit operator Clock(int minutes) => minutes > 0 ? new Clock { Hours = minutes / 60 } : throw new ArgumentException(); 
         
         public static explicit operator int(Clock clock) => clock.Hours * 60;
 
