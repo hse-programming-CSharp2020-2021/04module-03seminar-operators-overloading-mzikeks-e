@@ -33,13 +33,72 @@ public readonly struct Fraction
     private readonly int num;
     private readonly int den;
 
-    public Fraction(int numerator, int denominator)
+
+    public Fraction(int numerator, int denomenator)
     {
-        num = numerator;
-        den = denominator;
+        int gcdThis = GCD(Math.Abs(numerator), Math.Abs(denomenator));
+        numerator /= gcdThis;
+        denomenator /= gcdThis;
+        if (denomenator < 0)
+        {
+            denomenator = -denomenator;
+            numerator = -numerator;
+        }
+
+        this.num = numerator;
+        this.den = denomenator;
+
     }
 
-    public override string ToString() => $"{num}/{den}";
+    private static int GCD(int one, int two)
+    {
+        while (one != 0 && two != 0)
+        {
+            if (one > two) one %= two;
+            else two %= one;
+        }
+        return Math.Max(1, one + two);
+    }
+
+    public override string ToString() => den == 1 ? num.ToString(): $"{num}/{den}";
+
+    public static Fraction operator +(Fraction one, Fraction two)
+    {
+        return new Fraction
+        (
+            one.num * two.den + two.num * one.den,
+            one.den * two.den
+        );
+    }
+
+    public static Fraction operator -(Fraction one, Fraction two)
+    {
+        return new Fraction
+        (
+            one.num * two.den - two.num * one.den,
+            one.den * two.den
+        );
+    }
+
+    public static Fraction operator *(Fraction one, Fraction two)
+    {
+        return new Fraction
+        (
+            one.num * two.num,
+            one.den * two.den
+        );
+    }
+
+    public static Fraction operator /(Fraction one, Fraction two)
+    {
+        if (two.num == 0) throw new DivideByZeroException();
+        if (one.num == 0 && two.num == 0) return new Fraction(1, 1);
+        return new Fraction
+        (
+            one.num * two.den,
+            one.den * two.num
+        );
+    }
 }
 
 public static class OperatorOverloading
@@ -48,7 +107,16 @@ public static class OperatorOverloading
     {
         try
         {
-            
+            var inp1 = Console.ReadLine().Split('/');
+            var inp2 = Console.ReadLine().Split('/');
+
+            Fraction r1 = new Fraction(int.Parse(inp1[0]), int.Parse(inp1[1]));
+            Fraction r2 = new Fraction(int.Parse(inp2[0]), int.Parse(inp2[1]));
+            Console.WriteLine(r1 + r2);
+            Console.WriteLine(r1 - r2);
+            Console.WriteLine(r1 * r2);
+            Console.WriteLine(r1 / r2);
+
         }
         catch (ArgumentException)
         {
@@ -58,5 +126,6 @@ public static class OperatorOverloading
         {
             Console.WriteLine("zero");
         }
+        Console.ReadKey();
     }
 }
