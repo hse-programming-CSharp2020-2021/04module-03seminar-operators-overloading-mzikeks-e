@@ -26,27 +26,53 @@
 
 namespace Task05
 {
+
     class Dollar
     {
+        public static decimal currency = 1.14M;
+
         public decimal Sum { get; set; }
+
+        public override string ToString() => Sum.ToString("f2");
+
+        public static explicit operator Dollar(Euro v) => new Dollar{Sum = v.Sum * currency};
+
+        public static implicit operator Dollar(decimal v) => v >= 0 ? new Dollar { Sum = v } : throw new ArgumentException();
     }
     class Euro
-    {
+    {   
+        public static decimal currency = 1 / Dollar.currency; 
+
         public decimal Sum { get; set; }
+
+        public override string ToString() => Sum.ToString("f2");
+
+        public static explicit operator Euro(Dollar v) => new Euro { Sum = v.Sum * currency };
+
+        public static implicit operator Euro(decimal v) => v >= 0 ? new Euro { Sum = v } : throw new ArgumentException();
     }
 
     class MainClass
     {
+
         public static void Main(string[] args)
         {
             try
             {
+
+                Dollar dollar = decimal.Parse(Console.ReadLine());
+                Euro euro = decimal.Parse(Console.ReadLine());
+
+                Console.WriteLine((Euro)dollar);
+                Console.WriteLine((Dollar)euro);
+
 
             }
             catch (ArgumentException)
             {
                 Console.WriteLine("error");
             }
+            Console.ReadKey();
         }
     }
 }
