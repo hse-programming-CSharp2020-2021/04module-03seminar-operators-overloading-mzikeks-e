@@ -58,7 +58,7 @@ namespace Task05
 
         public static void Main(string[] args)
         {
-            CultureInfo.CurrentCulture = new CultureInfo("ru - RU");
+            CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
             try
             {
 

@@ -53,7 +53,7 @@ namespace Task04
     {
         public static void Main(string[] args)
         {
-            CultureInfo.CurrentCulture = new CultureInfo("ru - RU");
+            CultureInfo.CurrentCulture = new CultureInfo("ru-RU");
             Fahrenheit fahrenheitDegrees = new Fahrenheit { Gradus = double.Parse(Console.ReadLine()) };
             Celcius celciusDegrees = new Celcius { Gradus = double.Parse(Console.ReadLine()) };
 
