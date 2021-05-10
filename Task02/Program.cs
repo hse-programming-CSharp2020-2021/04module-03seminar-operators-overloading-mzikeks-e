@@ -32,6 +32,42 @@ namespace Task02
     {
         public decimal Population { get; set; }
         public decimal Area { get; set; }
+
+        private static void CheckCorrect(State state)
+        {
+            if (state.Area <= 0 || state.Population <= 0) throw new ArgumentException();
+        }
+
+        public static State operator +(State state1, State state2)
+        {
+            CheckCorrect(state1);
+            CheckCorrect(state2);
+            return new State
+            {
+                Area = state1.Area + state2.Area,
+                Population = state1.Population + state2.Population
+            };
+        }
+
+        public static bool operator <(State state1, State state2)
+        {
+            CheckCorrect(state1);
+            CheckCorrect(state2);
+            if ((double)state1.Population / (double)state1.Area > (double)state2.Population / (double)state2.Area)
+                return true;
+            return false;
+        }
+
+        public static bool operator >(State state1, State state2)
+        {
+            CheckCorrect(state1);
+            CheckCorrect(state2);
+            if ((double)state1.Population / (double)state1.Area < (double)state2.Population / (double)state2.Area)
+                return true;
+            return false;
+        }
+
+        public override string ToString() => $"{Area} {Population}";
     }
 
     class MainClass
@@ -55,12 +91,13 @@ namespace Task02
                 }
 
                 State state3 = state1 + state2;
+                Console.WriteLine(state3);
             }
             catch (ArgumentException)
             {
                 Console.WriteLine("error");
             }
-            Console.WriteLine(state3);
+            Console.ReadKey();
         }
     }
 }

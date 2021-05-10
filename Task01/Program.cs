@@ -24,10 +24,19 @@ namespace Task01
     class Bread
     {
         public int Weight { get; set; }
+
+        public static Sandwich operator +(Bread bread, Butter butter)
+        {
+            if (bread.Weight < 0 || butter.Weight < 0) 
+                throw new ArgumentException("Ошибка! У ингредиентов не может быть отрицательный вес");
+
+            return new Sandwich { Weight = bread.Weight + butter.Weight };
+        }
     }
     class Butter
     {
         public int Weight { get; set; }
+
     }
     class Sandwich
     {
@@ -44,12 +53,13 @@ namespace Task01
                 Bread bread = new Bread { Weight = int.Parse(strs[0]) };
                 Butter butter = new Butter { Weight = int.Parse(strs[1]) };
                 Sandwich sandwich = bread + butter;
+                Console.WriteLine(sandwich.Weight);
             }
             catch (ArgumentException)
             {
                 Console.WriteLine("error");
             }
-            Console.WriteLine(sandwich.Weight);
+            Console.ReadKey();
         }
     }
 }
